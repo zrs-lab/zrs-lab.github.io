@@ -1,12 +1,14 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection} from "astro:content";
+import { glob, file } from 'astro/loaders';
+import { z } from "astro/zod";
 
 const showcase = defineCollection({
-  type: "data",
+  loader: glob({ base: './src/content/showcase', pattern: '**/*.json' }),
   schema: ({ image }) =>
     z.object({
       title: z.string().min(1),
       image: image(),
-      url: z.string().url(),
+      url: z.url(),
       featured: z.number().min(1).optional(),
     }),
 });
